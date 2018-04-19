@@ -1,0 +1,32 @@
+{
+  "name": "cusihubot",
+  "version": "0.0.0",
+  "description": "A bot for the CUSI Slack team",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "html-entities": "^1.2.1",
+    "hubot": "^2.19.0",
+    "hubot-diagnostics": "0.0.2",
+    "hubot-help": "^0.2.2",
+    "hubot-redis-brain": "0.0.4",
+    "hubot-rules": "^0.1.2",
+    "hubot-scripts": "^2.17.2",
+    "hubot-slack": "^4.4.0",
+    "request": "^2.85.0",
+    "xml2js": "^0.4.19"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cusi-dev/CusiHubot.git"
+  },
+  "author": "jheard@cusi.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cusi-dev/CusiHubot/issues"
+  },
+  "homepage": "https://github.com/cusi-dev/CusiHubot#readme"
+}
