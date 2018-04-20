@@ -5,4 +5,4 @@ source bin/env.sh
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
-exec node_modules/.bin/hubot -a slack --name "sandy" "$@"
+exec node_modules/.bin/hubot -a slack --name "null" "$@"

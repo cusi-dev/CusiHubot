@@ -1,8 +1,14 @@
-# Description:
-#   Script to pull data from Footprints
-#
-# Notes:
-#
+ # Description:
+ #   Queries Footprint data.
+ #
+ # Commands:
+ #   hubot fp****** - Displays verbose data about a FootPrints ticket.
+ #   hubot fp######- - Displays minified information about a FootPrints ticket.
+ #
+ # Configuration:
+ #
+ # Notes:
+ #   These commands are grabbed from comment blocks at the top of each file.
 request = require("request")
 xml2js = require("xml2js")
 processors = require('xml2js/lib/processors')
@@ -12,9 +18,11 @@ entities = new Entities();
 
 module.exports = (robot) ->
   robot.respond /status/i , (res) ->
+    robot.logger.info "Overheard \"#{res.message.text}\" in \##{res.message.rawMessage.channel.name}"
     res.send "I have retrieved #{robot.brain.get('FootPrintRequestsServed') || '0'} tickets from FootPrints."
 
   robot.hear /fp(\d+)(?!-)\b/i, (res) ->
+    robot.logger.info "Overheard \"#{res.message.text}\" in \##{res.message.rawMessage.channel.name}"
     FootPrintRequestsServed = robot.brain.get('FootPrintRequestsServed') || 0
     options =
       method: 'POST',
@@ -33,8 +41,8 @@ module.exports = (robot) ->
           {thread_ts: res.message.rawMessage.thread_ts || res.message.rawMessage.ts}
         );
         return
-      rerror = /Server Error/ig
-      res.send "Login Error: \n#{options.body}" if (body.search(rerror) > -1)
+      # rerror = /Server Error/ig
+      # res.send "Login Error: \n#{options.body}" if (body.search(rerror) > -1)
 
       xml2js.parseString(body, {tagNameProcessors: [processors.stripPrefix, processors.normalize], normalize: true}, (err, result) ->
         ticket = result.envelope.body[0].mrwebservices__getissuedetailsresponse[0].return[0]
@@ -97,10 +105,11 @@ module.exports = (robot) ->
     )
 
   robot.hear /fp(\d+)-/i, (res) ->
+    robot.logger.info "Overheard \"#{res.message.text}\" in \##{res.message.rawMessage.channel.name}"
     FootPrintRequestsServed = robot.brain.get('FootPrintRequestsServed') || 0
     options =
       method: 'POST',
-      url: process.env.FP_ProjectNumber,
+      url: process.env.FP_URL,
       headers:
         'Cache-Control': 'no-cache',
         'Content-Type': 'text/xml',
@@ -115,8 +124,8 @@ module.exports = (robot) ->
           {thread_ts: res.message.rawMessage.thread_ts || res.message.rawMessage.ts}
         );
         return
-      rerror = /Server Error/ig
-      res.send "Login Error: \n#{options.body}" if (body.search(rerror) > -1)
+      # rerror = /Server Error/ig
+      # res.send "Login Error: \n#{options.body}" if (body.search(rerror) > -1)
 
       xml2js.parseString(body, {tagNameProcessors: [processors.stripPrefix, processors.normalize], normalize: true}, (err, result) ->
         ticket = result.envelope.body[0].mrwebservices__getissuedetailsresponse[0].return[0]
